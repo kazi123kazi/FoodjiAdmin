@@ -1,6 +1,8 @@
 package admin.example.foodie;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -99,6 +101,12 @@ public class RegisterActivity extends AppCompatActivity {
                    intent.putExtra("restId",RestaurantIdInput.getText().toString());
                    intent.putExtra("address",InputAddress.getText().toString());
                    startActivity(intent);
+                   WelcomeActvity.token=response.body().getToken();
+                   SharedPreferences sharedPreferences = getSharedPreferences("admin.example.foodie", Context.MODE_PRIVATE);
+
+                   SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("token",WelcomeActvity.token);
+//                   token = sharedPreferences.getString("token", null);
                    progressBar.setVisibility(View.GONE);
                    WelcomeActvity.getInstance().finish();
                    finish();

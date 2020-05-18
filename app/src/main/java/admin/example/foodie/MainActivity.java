@@ -1,7 +1,9 @@
 package admin.example.foodie;
 
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -60,13 +62,20 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 //
-//        progressBar = findViewById(R.id.progressBar2);
-//
+//              progressBar = findViewById(R.id.progressBar2);
+
 //              progressBar.setVisibility(View.GONE);
 //
         Intent i = getIntent();
         token = i.getStringExtra("token");
         user = i.getStringExtra("name");
+
+        if (token != null) {
+            Log.i("TOKEN", token);
+            if (WelcomeActvity.getInstance() != null)
+                WelcomeActvity.getInstance().finish();
+        }
+
 
 
 //        if (user == null) {
@@ -295,6 +304,9 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Success!", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(MainActivity.this, WelcomeActvity.class);
                     startActivity(intent);
+
+
+                    deleteToken();
                     finish();
 
                 }
@@ -309,6 +321,20 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    //delete Token on logging out
+    public void deleteToken() {
+        SharedPreferences sharedPreferences = getSharedPreferences("admin.example.foodie", Context.MODE_PRIVATE);
+
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+
+        editor.clear();
+        editor.apply();
+
+        WelcomeActvity.token=null;
+        editor.commit();
     }
 
 }

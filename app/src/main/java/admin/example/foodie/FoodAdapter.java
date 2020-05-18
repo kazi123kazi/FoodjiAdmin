@@ -4,6 +4,9 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
@@ -61,6 +64,16 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.CustomViewHold
         Log.i("afnan", String.valueOf(items.get(position).getFoodid()));
         Foodid foodid = items.get(position).getFoodid();
         holder.foodName.setText(foodid.getName());
+
+        String encodedImage = items.get(position).getFoodid().getImage();
+
+        if(encodedImage!=null) {
+            byte[] image = Base64.decode(encodedImage, Base64.DEFAULT);
+            Bitmap i = BitmapFactory.decodeByteArray(image, 0, image.length);
+           holder.imageView.setImageBitmap(i);
+        }
+
+
 
         holder.price.setText("₹ "+items.get(position).getPrice());
         holder.deleteFood.setOnClickListener(new View.OnClickListener() {
@@ -127,14 +140,14 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.CustomViewHold
 
         private TextView foodName;
         private TextView price;
-
+      private  ImageView imageView;
         private ImageView deleteFood;
 
 
         public CustomViewHolder(@NonNull View itemView) {
             super(itemView);
 
-
+            imageView=itemView.findViewById(R.id.food_image);
             deleteFood=itemView.findViewById(R.id.deleteFood);
             price=itemView.findViewById(R.id.priceOfFood);
             foodName = itemView.findViewById(R.id.food_name);

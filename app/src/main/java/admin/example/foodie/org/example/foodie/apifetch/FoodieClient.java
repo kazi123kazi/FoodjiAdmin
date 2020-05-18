@@ -7,6 +7,7 @@ import admin.example.foodie.models.Food;
 import admin.example.foodie.models.Foodid;
 import admin.example.foodie.models.Order;
 import admin.example.foodie.models.OrderFood;
+import admin.example.foodie.models.ResponseRestaurant;
 import admin.example.foodie.models.ResponseUser;
 import admin.example.foodie.models.Restaurant;
 import admin.example.foodie.models.RestaurantCreate.RestaurantCreate;
@@ -32,7 +33,7 @@ public interface FoodieClient {
     Call<ResponseUser> getData(@Header("Authorization") String token);
 
     @GET("restaurant/{id}")
-    Call<Restaurant> getFood(@Path("id") String id);
+    Call<ResponseRestaurant> getFood(@Path("id") String id);
     //post food to restaurant
     @POST("food")
     Call<Foodid> postFood(@Header("Authorization") String token, @Body Food food);
@@ -55,9 +56,15 @@ public interface FoodieClient {
     Call<List<Order>> getNotified(@Header("Authorization") String token);
 
 
+    @Multipart
+    @POST("food/image/{id}")
+    Call<ResponseBody> postFoodImage(@Path("id") String id,@Header("Authorization") String token,@Part MultipartBody.Part image);
+
 
     @HTTP(method = "DELETE", path = "restaurant/food", hasBody = true)
     Call<ResponseBody> deleteFood(@Header("Authorization") String token, @Body OrderFood food);
+
+
 
 
 }

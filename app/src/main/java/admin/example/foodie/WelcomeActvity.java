@@ -16,6 +16,7 @@ public class WelcomeActvity extends AppCompatActivity {
 
     public static String token;
 
+
     private Button loginButton, joinNowButton;
 
     static WelcomeActvity welcomeActvity;
@@ -30,11 +31,9 @@ public class WelcomeActvity extends AppCompatActivity {
         setContentView(R.layout.activity_welcome_actvity);
         welcomeActvity = this;
 
-        Log.i("token:", String.valueOf(token));
-
 
         if (token == null) {
-            SharedPreferences sharedPreferences = getSharedPreferences("org.example.foodie", Context.MODE_PRIVATE);
+            SharedPreferences sharedPreferences = getSharedPreferences("admin.example.foodie", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
 
             token = sharedPreferences.getString("token", null);
@@ -45,10 +44,11 @@ public class WelcomeActvity extends AppCompatActivity {
             Intent i = new Intent(this, MainActivity.class);
             i.putExtra("token", token);
             // welcomeActvity.finish();
+            Log.i("token:", String.valueOf(token));
+
 
             startActivity(i);
         }
-
         joinNowButton=(Button)findViewById(R.id.main_join_now_btn);
         loginButton=(Button)findViewById(R.id.main_login_btn);
         loginButton.setOnClickListener(new View.OnClickListener() {

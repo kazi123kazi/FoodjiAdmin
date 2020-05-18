@@ -57,6 +57,7 @@ public class UserRepository {
             @Override
             public void onFailure(Call<ResponseUser> call, Throwable t) {
 
+                Log.i("responseUser",t.getMessage());
                 userData.setValue(null);
 
 

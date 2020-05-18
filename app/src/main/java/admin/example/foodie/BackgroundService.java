@@ -44,7 +44,7 @@ public class BackgroundService extends Service {
     public Order order;
     private Handler mHandler;
     // default interval for syncing data
-    public static final long DEFAULT_SYNC_INTERVAL = 1000;//30 sec
+    public static final long DEFAULT_SYNC_INTERVAL = 5*1000;//30 sec
 
     String json;
     MainActivity activity=new MainActivity();
@@ -98,7 +98,7 @@ public class BackgroundService extends Service {
 
                 if (response.body()!=null)
                 if (response.body().size() != 0) {
-                    Log.i("Response", response.body().get(0).getUser().getName());
+                    Log.i("ResponseUser", response.body().get(0).getUser().getName());
                     viewList.add(response.body().get(0));
                     saveData(sharedPreferences);
                     sendNotification(response.body().get(0));
@@ -107,7 +107,7 @@ public class BackgroundService extends Service {
 
             @Override
             public void onFailure(Call<List<Order>> call, Throwable t) {
-                Log.i("Response", t.getMessage());
+                Log.i("ResponseMessage", t.getMessage());
             }
         });
 

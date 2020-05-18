@@ -1,6 +1,8 @@
 package admin.example.foodie;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -74,7 +76,18 @@ public class LoginActivity extends AppCompatActivity {
                     Log.i("Restaurant id:",rest_id);
                     intent.putExtra("restId",restaurantObj.getRest_id());
                     intent.putExtra("address",restaurantObj.getAddress());
+                    WelcomeActvity.token=response.body().getToken();
                     startActivity(intent);
+
+
+                    SharedPreferences sharedPreferences = getSharedPreferences("admin.example.foodie", Context.MODE_PRIVATE);
+
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    WelcomeActvity.token=response.body().getToken();
+                    editor.putString("token",WelcomeActvity.token);
+                    editor.commit();
+
+
                     spinner.setVisibility(View.GONE);
                     WelcomeActvity.getInstance().finish();
                     finish();

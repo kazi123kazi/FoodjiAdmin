@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import admin.example.foodie.LoginActivity;
 import admin.example.foodie.models.Food;
+import admin.example.foodie.models.ResponseRestaurant;
 import admin.example.foodie.models.Restaurant;
 import admin.example.foodie.org.example.foodie.apifetch.FoodieClient;
 import admin.example.foodie.org.example.foodie.apifetch.ServiceGenerator;
@@ -42,22 +43,22 @@ public class FoodRepository {
 
         MutableLiveData<List<Food>> restaurantData = new MutableLiveData<>();
 
-        Call<Restaurant> call = foodieClient.getFood(LoginActivity.rest_id);
+        Call<ResponseRestaurant> call = foodieClient.getFood(LoginActivity.rest_id);
 
-        call.enqueue(new Callback<Restaurant>() {
+        call.enqueue(new Callback<ResponseRestaurant>() {
             @Override
-            public void onResponse(Call<Restaurant> call, Response<Restaurant> response) {
+            public void onResponse(Call<ResponseRestaurant> call, Response<ResponseRestaurant> response) {
 
                 Log.i("Response", String.valueOf(response.code()));
                 if (response.isSuccessful()) {
-                    restaurantData.setValue(response.body().getFoods());
+                    restaurantData.setValue(response.body().getRestaurant().getFoods());
 
                 }
 
             }
 
             @Override
-            public void onFailure(Call<Restaurant> call, Throwable t) {
+            public void onFailure(Call<ResponseRestaurant> call, Throwable t) {
 
                 Log.i("response", String.valueOf(LoginActivity.rest_id));
                 restaurantData.setValue(null);

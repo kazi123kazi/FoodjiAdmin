@@ -67,7 +67,7 @@ public class Home extends Fragment {
     private Button test;
     private TextView stepName;
     private ImageView foodImageView;
-
+    String id;
     private Button selectImageFood,captureImageFood;
 
     private View progressBar;
@@ -192,7 +192,9 @@ public class Home extends Fragment {
                 if (response.code() == 201) {
                     Toast.makeText(getActivity(), response.body().getName() + " added Successfully.", Toast.LENGTH_SHORT).show();
                     foodName.setText("");
+                    id=response.body().get_id();
                     foodprice.setText("");
+                    Log.i("RESPONSEIMAGE", String.valueOf(response.code()));
                     addFood.setText("Add More To Food List");
 
                     progressBar.setVisibility(View.INVISIBLE);
@@ -298,7 +300,7 @@ public class Home extends Fragment {
         FoodieClient foodieClient = ServiceGenerator.createService(FoodieClient.class);
 
 
-        Call<ResponseBody> call = foodieClient.postImage(MainActivity.token, image);
+        Call<ResponseBody> call = foodieClient.postFoodImage(id,MainActivity.token, image);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
