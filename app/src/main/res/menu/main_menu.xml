@@ -17,6 +17,11 @@
             android:id="@+id/update"
             android:icon="@drawable/baseline_update_black_18dp"
             android:title="Update Info"/>
+        <item android:id="@+id/view_orders"
+            android:icon="@drawable/baseline_list_black_18dp"
+            android:title="Orders"/>
+
+
         <item
             android:id="@+id/help"
             android:icon="@drawable/twotone_help_24"

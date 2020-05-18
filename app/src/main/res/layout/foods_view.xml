@@ -40,7 +40,7 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/twotone_power_settings_new_24"
+        android:src="@drawable/twotone_delete_black_18dp"
         android:layout_alignParentEnd="true"
         android:padding="@dimen/_10sdp"
         android:layout_margin="@dimen/_10sdp"

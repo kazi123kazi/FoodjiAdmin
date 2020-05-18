@@ -26,10 +26,16 @@
         android:roundIcon="@drawable/applogo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AllFoods"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <service   android:enabled="true"
+            android:name="admin.example.foodie.BackgroundService"/>
+
         <activity
-            android:name=".Splash"
+            android:name="admin.example.foodie.AllFoods"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name="admin.example.foodie.OrdersActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name="admin.example.foodie.Splash"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -59,7 +65,7 @@
 =======
         -->
         <provider
-            android:name=".GenericFileProvider"
+            android:name="admin.example.foodie.GenericFileProvider"
             android:authorities="${applicationId}.provider"
             android:exported="false"
             android:grantUriPermissions="true">
@@ -69,20 +75,20 @@
         </provider>
 
         <activity
-            android:name=".Update"
+            android:name="admin.example.foodie.Update"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".MainActivity"
+            android:name="admin.example.foodie.MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".RegisterActivity"
+            android:name="admin.example.foodie.RegisterActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".LoginActivity"
+            android:name="admin.example.foodie.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".WelcomeActvity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:name="admin.example.foodie.WelcomeActvity"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>
