@@ -1,4 +1,4 @@
-package admin.example.foodie;
+package admin.example.foodie.FragmentClass;
 
 import android.Manifest;
 import android.app.Activity;
@@ -29,6 +29,7 @@ import androidx.fragment.app.Fragment;
 
 import org.example.foodie.R;
 
+import admin.example.foodie.MainActivity;
 import admin.example.foodie.models.Food;
 import admin.example.foodie.models.Foodid;
 import admin.example.foodie.org.example.foodie.apifetch.FoodieClient;
@@ -51,10 +52,10 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static android.app.Activity.RESULT_OK;
-import static admin.example.foodie.Update.MY_PERMISSIONS_REQUEST_CAMERA;
+import static admin.example.foodie.FragmentClass.UpdateFragments.MY_PERMISSIONS_REQUEST_CAMERA;
 
 
-public class Home extends Fragment {
+public class AddFoodFragment extends Fragment {
     private static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
 
     public static String token;
@@ -73,7 +74,7 @@ public class Home extends Fragment {
     private View progressBar;
 
 
-    public Home() {
+    public AddFoodFragment() {
 
     }
 
@@ -300,7 +301,7 @@ public class Home extends Fragment {
         FoodieClient foodieClient = ServiceGenerator.createService(FoodieClient.class);
 
 
-        Call<ResponseBody> call = foodieClient.postFoodImage(id,MainActivity.token, image);
+        Call<ResponseBody> call = foodieClient.postFoodImage(id, MainActivity.token, image);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

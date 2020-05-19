@@ -1,17 +1,20 @@
-package admin.example.foodie.models.RestaurantCreate;
+package admin.example.foodie.models;
 
 import java.util.List;
 
-public class RestaurantUser {
-
+public class UpdateInfo {
 
     private String name;
-    private String rest_id;
     private String address;
     private String password;
     private List<String> contactNos;
 
-
+    public UpdateInfo(String name , String address , String password , List<String> contactNos) {
+        this.name = name;
+        this.address = address;
+        this.password = password;
+        this.contactNos = contactNos;
+    }
 
     public String getName() {
         return name;
@@ -19,14 +22,6 @@ public class RestaurantUser {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getRest_id() {
-        return rest_id;
-    }
-
-    public void setRest_id(String rest_id) {
-        this.rest_id = rest_id;
     }
 
     public String getAddress() {
@@ -50,14 +45,6 @@ public class RestaurantUser {
     }
 
     public void setContactNos(List<String> contactNos) {
-        this.contactNos = contactNos;
-    }
-
-    public RestaurantUser(String name , String rest_id , String address , String password , List<String> contactNos) {
-        this.name = name;
-        this.rest_id = rest_id;
-        this.address = address;
-        this.password = password;
         this.contactNos = contactNos;
     }
 }

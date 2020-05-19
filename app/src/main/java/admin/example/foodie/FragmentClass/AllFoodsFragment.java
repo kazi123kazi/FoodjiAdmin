@@ -1,8 +1,9 @@
-package admin.example.foodie;
+package admin.example.foodie.FragmentClass;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -10,13 +11,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 
 import org.example.foodie.R;
 
+import admin.example.foodie.AdapterClass.FoodAdapter;
+import admin.example.foodie.MainActivity;
 import admin.example.foodie.models.Food;
 import admin.example.foodie.models.OrderFood;
 import admin.example.foodie.org.example.foodie.apifetch.FoodieClient;
@@ -31,38 +36,43 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class AllFoods extends AppCompatActivity {
-
+public class AllFoodsFragment extends Fragment {
+    private View rootView;
     private RestaurantsViewModel restaurantsViewModel;
     private static FoodAdapter adapter;
     private static RecyclerView recyclerView;
-    FoodsViewModel mViewModel;
+    private FoodsViewModel mViewModel;
     Toolbar toolbar;
     public static ProgressBar loadFood;
 
+    public AllFoodsFragment() {
+    }
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_all_foods);
-        recyclerView = findViewById(R.id.food_recycler_view);
-        loadFood=findViewById(R.id.loadFood);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        rootView = inflater.inflate(R.layout.activity_all_foods, container, false);
+
+        recyclerView = rootView.findViewById(R.id.food_recycler_view);
+        loadFood=rootView.findViewById(R.id.loadFood);
+        toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
+
 
         loadFood.setVisibility(View.VISIBLE);
         // This will display an Up icon (<-), we will replace it with hamburger later
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-
-
         showInfo();
 
-        recyclerView.setLayoutManager(new GridLayoutManager(this,1));
+        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(),1));
         setupRecyclerView();
 
-
+        return rootView;
     }
 
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        //you can set the title for your toolbar here for different fragments different titles
+        getActivity().setTitle("FOODJI ADMIN");
+    }
 
 
 
@@ -70,27 +80,21 @@ public class AllFoods extends AppCompatActivity {
     public void showInfo() {
 
         // recyclerView = findViewById(R.id.food_recycler_view);
-        mViewModel = ViewModelProviders.of(AllFoods.this).get(FoodsViewModel.class);
+        mViewModel = ViewModelProviders.of(this).get(FoodsViewModel.class);
         //  foodsViewModel=ViewModelProviders.of(this).get(FoodsViewModel.class);
-
         mViewModel.init();
-
         mViewModel.getFoodRepository().observe(this, new Observer<List<Food>>() {
             @Override
             public void onChanged(List<Food> foods) {
                 if (foods != null) {
                     //List<Food> list=new ArrayList<>();
-
                     //Collections.copy(foods,restaurant.getFoods());
-                    adapter = new FoodAdapter(AllFoods.this);
+                    adapter = new FoodAdapter(getActivity());
                     adapter.setFood(foods);
                     loadFood.setVisibility(View.GONE);
-
-                  //  recyclerView.setLayoutManager(new GridLayoutManager(AllFoods.this, 1));
+                      recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 1));
                     recyclerView.setAdapter(adapter);
-
                     Log.i("foods", String.valueOf("hi"));
-
 
                 }
             }
@@ -103,7 +107,7 @@ public class AllFoods extends AppCompatActivity {
 
         if (adapter == null) {
             //   adapter.setFood(foods);
-            recyclerView.setLayoutManager(new GridLayoutManager(AllFoods.this, 1));
+            recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 1));
             recyclerView.setAdapter(adapter);
 
         } else {
@@ -112,20 +116,20 @@ public class AllFoods extends AppCompatActivity {
     }
 
 
-    public AllFoods getInstace(){return AllFoods.this;}
+    public AllFoodsFragment getInstace(){return AllFoodsFragment.this;}
 
-public void refreshActivity(){
-    finish();
-    startActivity(getIntent());
-}
+//public void refreshActivity(){
+//    finish();
+//    startActivity(getIntent());
+//}
 
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        finish();
-
-    }
+//    @Override
+//    public void onBackPressed() {
+//        super.onBackPressed();
+//        finish();
+//
+//    }
 
 
     public void deleteFood(String id){

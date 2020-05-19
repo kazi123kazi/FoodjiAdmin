@@ -1,12 +1,14 @@
-package admin.example.foodie;
+package admin.example.foodie.FragmentClass;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,12 +22,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import admin.example.foodie.models.Food;
+import admin.example.foodie.AdapterClass.OrdersAdapter;
 import admin.example.foodie.models.Order;
 
-public class OrdersActivity extends AppCompatActivity {
+import static android.content.Context.MODE_PRIVATE;
 
+public class OrdersFragment extends Fragment {
 
+    View rootView;
     Toolbar toolbar;
     OrdersAdapter adapter;
     RecyclerView orderRecView;
@@ -34,11 +38,11 @@ public class OrdersActivity extends AppCompatActivity {
     SharedPreferences preferences;
     public  String json;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.orders_view);
-         preferences=OrdersActivity.this.getSharedPreferences("org.example.foodie",MODE_PRIVATE);
-            orderRecView=findViewById(R.id.allOrders);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        rootView = inflater.inflate(R.layout.orders_view , container , false);
+        preferences = getActivity().getSharedPreferences("org.example.foodie" , MODE_PRIVATE);
+        orderRecView = rootView.findViewById(R.id.allOrders);
 
 
 /*
@@ -50,24 +54,32 @@ public class OrdersActivity extends AppCompatActivity {
 
         getPrefernce(preferences);
 
-        if(viewList!=null) {
+        if (viewList != null) {
 
-            orderRecView = findViewById(R.id.allOrders);
+            orderRecView = rootView.findViewById(R.id.allOrders);
 
-            adapter=new OrdersAdapter(OrdersActivity.this);
-      //      orderRecView.setLayoutManager(new GridLayoutManager(
-        //            OrdersActivity.this, 1));
+            adapter = new OrdersAdapter(getActivity());
+            //      orderRecView.setLayoutManager(new GridLayoutManager(
+            //            OrdersActivity.this, 1));
             //SETTING up recyclerview
             Collections.reverse(viewList);
-adapter.setOrders(viewList);
-            orderRecView.setLayoutManager(new GridLayoutManager(OrdersActivity.this, 1));
-
+            adapter.setOrders(viewList);
+            orderRecView.setLayoutManager(new GridLayoutManager(getActivity() , 1));
             orderRecView.setAdapter(adapter);
-            //    setupRecyclerView();
+            setupRecyclerView();
 
         }
 
+        return rootView;
     }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        //you can set the title for your toolbar here for different fragments different titles
+        getActivity().setTitle("FOODJI ADMIN");
+    }
+
 
 
 
@@ -93,7 +105,7 @@ adapter.setOrders(viewList);
 
 
 
-        public  void saveData(SharedPreferences sharedPreferences) {
+    public  void saveData(SharedPreferences sharedPreferences) {
 
         SharedPreferences.Editor editor = sharedPreferences.edit();
         json = gson.toJson(viewList);
@@ -114,9 +126,5 @@ adapter.setOrders(viewList);
 
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        finish();
-    }
+
 }

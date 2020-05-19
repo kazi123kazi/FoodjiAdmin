@@ -1,40 +1,161 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="admin.example.foodie.Update"
-    android:orientation="vertical">
-    <ImageView
+     >
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:id="@+id/Image_view"
-        android:src="@drawable/user"
-        android:layout_margin="16sp"
-        />
+        android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/capture_image"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Capture Image"
-        android:textStyle="bold" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ProgressBar
+                android:id="@+id/progress_update"
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_122sdp"
+                android:layout_marginTop="@dimen/_minus60sdp"
+                android:visibility="visible"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_marginTop="@dimen/_20sdp">
+                <ImageView
+                    android:id="@+id/Image_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="199dp"
+                    android:padding="@dimen/_22sdp"
+                    android:src="@drawable/imageviewrestaurant" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+                    <Button
+                        android:id="@+id/select_image"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/_15sdp"
+                        android:text="Select From gallery"
+                        android:textStyle="bold" />
 
-    <Button
-        android:id="@+id/select_image"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Select Image From gallery"
-        android:textStyle="bold" />
+                    <Button
+                        android:id="@+id/capture_image"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/_15sdp"
+                        android:text="Capture Image"
+                        android:textStyle="bold" />
 
-    <ProgressBar
-        android:id="@+id/progress_update"
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/_122sdp"
-        android:layout_marginTop="@dimen/_minus60sdp" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <EditText
+                        android:id="@+id/RestaurantNameUpdate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/input_design"
+                        android:layout_margin="10dp"
+                        android:hint="Restaurant Name Update"
+                        android:inputType="text"
+                        android:padding="13dp"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textColorHint="@color/colorPrimaryDark"
+                        android:textSize="11dp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.318" />
+                    <EditText
+                        android:id="@+id/RestaurantPasswordUpdate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/input_design"
+                        android:hint="Password Update"
+                        android:inputType="textPassword"
+                        android:padding="13dp"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textColorHint="@color/colorPrimaryDark"
+                        android:textSize="11dp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.48"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.424"
+                        android:visibility="visible"
+                        />
+                    <EditText
+                        android:id="@+id/RestaurantaddressUpdate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/input_design"
+                        android:hint="Address Update"
+                        android:inputType="textPostalAddress|textMultiLine"
+                        android:padding="13dp"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textColorHint="@color/colorPrimaryDark"
+                        android:textSize="11dp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.64"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.525" />
+                    <EditText
+                        android:id="@+id/RestaurantPhoneUpdate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/input_design"
+                        android:hint="Phone Number"
+                        android:inputType="phone"
+                        android:layout_margin="10dp"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textColorHint="@color/colorPrimaryDark"
+                        android:padding="13dp"
+                        android:textStyle="bold"
+                        android:textSize="11dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.722" />
+                    <Button
+                        android:id="@+id/RestaurantInfoUpdate"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:layout_margin="10dp"
+                        android:layout_marginStart="10dp"
+                        android:background="@drawable/buttons"
+                        android:layout_marginEnd="10dp"
+                        android:text="Update "
+                        android:padding="10dp"
+                        android:textAllCaps="false"
+                        android:textColor="@android:color/white"
+                        android:textSize="15dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.541"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.838" />
 
-
-</LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>

@@ -1,4 +1,4 @@
-package admin.example.foodie;
+package admin.example.foodie.AdapterClass;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -15,7 +15,6 @@ import org.example.foodie.R;
 
 import java.util.List;
 
-import admin.example.foodie.models.Food;
 import admin.example.foodie.models.Order;
 import admin.example.foodie.models.OrderFood;
 

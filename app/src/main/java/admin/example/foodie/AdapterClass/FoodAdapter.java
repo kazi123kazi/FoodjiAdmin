@@ -1,4 +1,4 @@
-package admin.example.foodie;
+package admin.example.foodie.AdapterClass;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.example.foodie.R;
 
+import admin.example.foodie.FragmentClass.AllFoodsFragment;
 import admin.example.foodie.models.Food;
 import admin.example.foodie.models.Foodid;
 
@@ -35,7 +36,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.CustomViewHold
     private FragmentManager f_manager;
     private Context context;
     public SharedPreferences sharedPreferences;
-    AllFoods instance;
+    AllFoodsFragment instance;
 
 
     public AlertDialog.Builder builder;
@@ -89,7 +90,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.CustomViewHold
 
 
 
-                    instance=new AllFoods();
+                    instance=new AllFoodsFragment();
                     instance.deleteFood(foodid.get_id());
                     items.remove(items.get(position));
                     notifyDataSetChanged();

@@ -9,10 +9,12 @@
         <item android:id="@+id/home"
             android:icon="@drawable/twotone_home_24"
             android:title="Home"/>
+<!--        it will open default  all food fragment-->
         <item
-            android:id="@+id/allFoods"
+            android:id="@+id/addFood"
             android:icon="@drawable/twotone_restaurant_menu_24"
-            android:title="All Foods" />
+            android:title="Add Food" />
+<!--        It will open add food fragments-->
         <item
             android:id="@+id/update"
             android:icon="@drawable/baseline_update_black_18dp"
@@ -20,12 +22,10 @@
         <item android:id="@+id/view_orders"
             android:icon="@drawable/baseline_list_black_18dp"
             android:title="Orders"/>
-
-
         <item
-            android:id="@+id/help"
-            android:icon="@drawable/twotone_help_24"
-            android:title="Help" />
+            android:id="@+id/contactus"
+            android:icon="@drawable/contactus"
+            android:title="Contact Us" />
         <item
             android:id="@+id/logout"
             android:icon="@drawable/twotone_power_settings_new_24"

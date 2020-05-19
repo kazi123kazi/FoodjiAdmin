@@ -1,9 +1,10 @@
-package admin.example.foodie;
+package admin.example.foodie.FragmentClass;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.Manifest;
@@ -19,13 +20,21 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import org.example.foodie.R;
 
+import admin.example.foodie.MainActivity;
+import admin.example.foodie.WelcomeActvity;
+import admin.example.foodie.models.UpdateInfo;
+import admin.example.foodie.models.UpdateResponse;
 import admin.example.foodie.org.example.foodie.apifetch.FoodieClient;
 import admin.example.foodie.org.example.foodie.apifetch.ServiceGenerator;
 import admin.example.foodie.viewmodels.RestaurantsViewModel;
@@ -36,6 +45,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -46,46 +57,61 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Update extends AppCompatActivity {
+import static android.app.Activity.RESULT_OK;
+
+public class UpdateFragments extends Fragment {
     private Button captureImage,selectImage;
     private ImageView imageView;
     private RestaurantsViewModel restaurantsViewModel;
     public static final int MY_PERMISSIONS_REQUEST_CAMERA=1;
-   public ProgressBar update;
+    public ProgressBar update;
+    FoodieClient foodieClient;
+    EditText NameUpdate,AddressUpdate,PhoneUpdate,PasswordUpdate;
+    Button Update;
+     List<String> contactNos=new ArrayList<String>();
+     String name=null,address=null,phone=null,password=null;
+     View rootview;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_update);
+    public View onCreateView(LayoutInflater inflater , ViewGroup container ,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        rootview=inflater.inflate(R.layout.fragment_contactus_fragments , container , false);
 
-        captureImage = findViewById(R.id.capture_image);
-        selectImage = findViewById(R.id.select_image);
-        imageView = findViewById(R.id.Image_view);
-        update=findViewById(R.id.progress_update);
+
+        captureImage =(Button) rootview.findViewById(R.id.capture_image);
+        selectImage =(Button) rootview.findViewById(R.id.select_image);
+        imageView = (ImageView) rootview.findViewById(R.id.Image_view);
+        update=rootview.findViewById(R.id.progress_update);
+        NameUpdate=(EditText) rootview.findViewById(R.id.RestaurantNameUpdate);
+        AddressUpdate=(EditText) rootview.findViewById(R.id.RestaurantaddressUpdate);
+        PhoneUpdate=(EditText) rootview.findViewById(R.id.RestaurantPhoneUpdate);
+        PasswordUpdate=(EditText) rootview.findViewById(R.id.RestaurantPasswordUpdate);
+        Update=(Button)rootview.findViewById(R.id.RestaurantInfoUpdate);
+
+       name=NameUpdate.getText().toString();
+       address=AddressUpdate.getText().toString();
+       password=PasswordUpdate.getText().toString();
+       if (PhoneUpdate.getText()!=null){
+           contactNos.add(PhoneUpdate.getText().toString());
+       }
 
 
         update.setVisibility(View.VISIBLE);
         String[] galleryPermissions = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
-
-
         showInfo();
-
-
-
-
-
         captureImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (ContextCompat.checkSelfPermission(Update.this,
+                if (ContextCompat.checkSelfPermission(getActivity(),
                         Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
 
                     if (ActivityCompat.shouldShowRequestPermissionRationale((Activity)
-                            Update.this, Manifest.permission.CAMERA)) {
+                            getActivity(), Manifest.permission.CAMERA)) {
 
 
                     } else {
-                        ActivityCompat.requestPermissions((Activity) Update.this,
+                        ActivityCompat.requestPermissions((Activity) getActivity(),
                                 new String[]{Manifest.permission.CAMERA},
                                 MY_PERMISSIONS_REQUEST_CAMERA);
                     }
@@ -95,7 +121,7 @@ public class Update extends AppCompatActivity {
                     Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
                     File f = new File(android.os.Environment.getExternalStorageDirectory(), "temp.jpg");
-                    Uri photoURI = FileProvider.getUriForFile(Update.this, Update.this.getPackageName() + ".provider", f);
+                    Uri photoURI = FileProvider.getUriForFile(getActivity(), getActivity().getPackageName() + ".provider", f);
 
                     intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                     intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
@@ -105,10 +131,6 @@ public class Update extends AppCompatActivity {
 
             }
         });
-
-
-
-
         //On click listener for
         selectImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,25 +139,56 @@ public class Update extends AppCompatActivity {
 
 
 
-                if (EasyPermissions.hasPermissions(Update.this, galleryPermissions)) {
+                if (EasyPermissions.hasPermissions(getActivity(), galleryPermissions)) {
                     Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     startActivityForResult(intent, 2);
                 } else {
-                    EasyPermissions.requestPermissions(Update.this, "Access for storage",
+                    EasyPermissions.requestPermissions(getActivity(), "Access for storage",
                             101, galleryPermissions);
                 }
         }});
+        Update.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UpdateInfo();
+            }
+        });
 
+        return  rootview;
 
+    }
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        //you can set the title for your toolbar here for different fragments different titles
+        getActivity().setTitle("FOODJI ADMIN");
+    }
 
+    private void UpdateInfo() {
+          // contactNos.add(PhoneUpdate.getText().toString());
+        foodieClient = ServiceGenerator.createService(FoodieClient.class);
 
+        UpdateInfo updateInfo  =new UpdateInfo(name, address, password, contactNos);
+         Call<UpdateResponse> call=foodieClient.updateInfo(WelcomeActvity.token,updateInfo);
+         call.enqueue(new Callback<UpdateResponse>() {
+             @Override
+             public void onResponse(Call<UpdateResponse> call , Response<UpdateResponse> response) {
+                 if (response.code()==200) {
+                     Toast.makeText(getActivity() , "Information Updated successfully" , Toast.LENGTH_SHORT).show();
+                 }
+             }
 
-        }
+             @Override
+             public void onFailure(Call<UpdateResponse> call , Throwable t) {
+
+             }
+         });
+
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
 
 
         if (resultCode == RESULT_OK) {
@@ -154,12 +207,12 @@ public class Update extends AppCompatActivity {
                     bitmap = BitmapFactory.decodeFile(f.getAbsolutePath(),
                             bitmapOptions);
 
-                    update.setVisibility(View.VISIBLE);
+                    //  update.setVisibility(View.VISIBLE);
                     MultipartBody.Part body = ProcessImage(bitmap);
                     postImage(body);
 
 
-                 //   viewImage.setImageBitmap(bitmap);
+                    //   viewImage.setImageBitmap(bitmap);
                     String path = android.os.Environment
                             .getExternalStorageDirectory()
                             + File.separator
@@ -185,14 +238,10 @@ public class Update extends AppCompatActivity {
             }
 
 
-
-
-
-
-            if (requestCode==2) {
+            if (requestCode == 2) {
                 Uri selectedImage = data.getData();
                 String[] filePath = {MediaStore.Images.Media.DATA};
-                Cursor c = this.getContentResolver().query(selectedImage, filePath, null, null, null, null);
+                Cursor c = getActivity().getContentResolver().query(selectedImage, filePath, null, null, null, null);
                 c.moveToFirst();
                 int columnIndex = c.getColumnIndex(filePath[0]);
                 //   Log.i("path",filePath[0]);
@@ -202,26 +251,18 @@ public class Update extends AppCompatActivity {
                 Bitmap thumbnail = (BitmapFactory.decodeFile(picturePath));
                 Log.i("path of image:", picturePath + "");
 
-                update.setVisibility(View.VISIBLE);
+                // update.setVisibility(View.VISIBLE);
                 MultipartBody.Part body = ProcessImage(thumbnail);
                 postImage(body);
 
             }
-
-
         }
-
-
 
 
     }
 
-
-
-
-
     public void postImage(MultipartBody.Part image){
-        FoodieClient foodieClient = ServiceGenerator.createService(FoodieClient.class);
+        foodieClient = ServiceGenerator.createService(FoodieClient.class);
 
 
         Call<ResponseBody> call=foodieClient.postImage(MainActivity.token,image);
@@ -229,8 +270,8 @@ public class Update extends AppCompatActivity {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response)
             {
-                finish();
-                startActivity(getIntent());
+               // finish();
+               // startActivity(getIntent());
 
                 Log.i("Response:", String.valueOf(response.code()));
             }
@@ -242,12 +283,10 @@ public class Update extends AppCompatActivity {
         });
     }
 
-
-
     public  MultipartBody.Part ProcessImage(Bitmap thumbnail){
 
         //create a file to write bitmap data
-        File f = new File(this.getCacheDir(),"fos.jpg");
+        File f = new File(getActivity().getCacheDir(),"fos.jpg");
         try {
             f.createNewFile();
         } catch (IOException e) {
@@ -285,12 +324,10 @@ public class Update extends AppCompatActivity {
         return body;
 
     }
-
-
     public void showInfo(){
 
 
-        restaurantsViewModel= ViewModelProviders.of(Update.this).get(RestaurantsViewModel.class);
+        restaurantsViewModel= ViewModelProviders.of(UpdateFragments.this).get(RestaurantsViewModel.class);
 
         restaurantsViewModel.init();
 

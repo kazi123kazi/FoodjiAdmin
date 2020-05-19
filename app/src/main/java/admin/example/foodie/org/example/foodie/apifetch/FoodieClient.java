@@ -14,6 +14,8 @@ import admin.example.foodie.models.RestaurantCreate.RestaurantCreate;
 import admin.example.foodie.models.RestaurantLogIn.ResponseRestaurantUser;
 import admin.example.foodie.models.RestaurantLogIn.RestaurantUser;
 
+import admin.example.foodie.models.UpdateInfo;
+import admin.example.foodie.models.UpdateResponse;
 import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -22,6 +24,7 @@ import retrofit2.http.GET;
 import retrofit2.http.HTTP;
 import retrofit2.http.Header;
 import retrofit2.http.Multipart;
+import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
@@ -64,6 +67,10 @@ public interface FoodieClient {
     @HTTP(method = "DELETE", path = "restaurant/food", hasBody = true)
     Call<ResponseBody> deleteFood(@Header("Authorization") String token, @Body OrderFood food);
 
+
+    //update user info
+    @PATCH("restaurant")
+    Call<UpdateResponse> updateInfo(@Header("Authorization") String token, UpdateInfo updateInfo);
 
 
 

@@ -26,14 +26,17 @@
         android:roundIcon="@drawable/applogo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <service   android:enabled="true"
-            android:name="admin.example.foodie.BackgroundService"/>
+
+        <service
+            android:name="admin.example.foodie.ServiceClass.BackgroundService"
+            android:enabled="true" />
 
         <activity
-            android:name="admin.example.foodie.AllFoods"
+            android:name="admin.example.foodie.FragmentClass.AllFoodsFragment"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name="admin.example.foodie.OrdersActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name="admin.example.foodie.FragmentClass.OrdersFragment"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name="admin.example.foodie.Splash"
             android:theme="@style/AppTheme.NoActionBar">
@@ -75,7 +78,7 @@
         </provider>
 
         <activity
-            android:name="admin.example.foodie.Update"
+            android:name="admin.example.foodie.FragmentClass.UpdateFragments"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name="admin.example.foodie.MainActivity"

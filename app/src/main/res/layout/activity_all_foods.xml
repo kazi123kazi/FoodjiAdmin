@@ -3,16 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="admin.example.foodie.AllFoods">
+    tools:context="admin.example.foodie.FragmentClass.AllFoodsFragment">
 
 
     <!-- The ActionBar displayed at the top -->
 
-    <include
-        android:id="@+id/action_bar"
-        layout="@layout/design_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+
 
     <androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/food_recycler_view"

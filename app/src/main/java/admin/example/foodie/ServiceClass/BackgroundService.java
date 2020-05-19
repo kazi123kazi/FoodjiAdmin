@@ -1,4 +1,4 @@
-package admin.example.foodie;
+package admin.example.foodie.ServiceClass;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -11,7 +11,6 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
@@ -26,7 +25,9 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-import admin.example.foodie.models.Food;
+import admin.example.foodie.FragmentClass.AddFoodFragment;
+import admin.example.foodie.FragmentClass.OrdersFragment;
+import admin.example.foodie.MainActivity;
 import admin.example.foodie.models.Order;
 import admin.example.foodie.models.OrderFood;
 import admin.example.foodie.org.example.foodie.apifetch.FoodieClient;
@@ -67,7 +68,7 @@ public class BackgroundService extends Service {
         @Override
         public void run() {
             //order=new Order(new User("8840102246",""),)
-            syncData(Home.token);
+            syncData(AddFoodFragment.token);
             createNotificationChannel();
 
             // Repeat this runnable code block again every ... min
@@ -112,14 +113,14 @@ public class BackgroundService extends Service {
         });
 
 
-        Toast.makeText(this, "I am running in background", Toast.LENGTH_SHORT).show();
+     //   Toast.makeText(this, "I am running in background", Toast.LENGTH_SHORT).show();
         Log.d("service: ", "running");
         // call your rest service here
     }
 
     public void sendNotification(Order order) {
         // Create an explicit intent for an Activity in your app
-        Intent intent = new Intent(this, OrdersActivity.class);
+        Intent intent = new Intent(this, OrdersFragment.class);
 
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);

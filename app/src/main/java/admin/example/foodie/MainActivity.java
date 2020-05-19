@@ -29,6 +29,12 @@ import com.google.android.material.navigation.NavigationView;
 
 import org.example.foodie.R;
 
+import admin.example.foodie.FragmentClass.AddFoodFragment;
+import admin.example.foodie.FragmentClass.AllFoodsFragment;
+import admin.example.foodie.FragmentClass.ContactUsFragments;
+import admin.example.foodie.FragmentClass.OrdersFragment;
+import admin.example.foodie.FragmentClass.UpdateFragments;
+import admin.example.foodie.ServiceClass.BackgroundService;
 import admin.example.foodie.org.example.foodie.apifetch.FoodieClient;
 import admin.example.foodie.org.example.foodie.apifetch.ServiceGenerator;
 
@@ -54,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
     // Make sure to be using androidx.appcompat.app.ActionBarDrawerToggle version.
     private ActionBarDrawerToggle drawerToggle;
     private int mSelectedId;
+    FragmentManager fragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
             if (WelcomeActvity.getInstance() != null)
                 WelcomeActvity.getInstance().finish();
         }
-
+       Log.d("Token",token);
         //BackgroundService service= new BackgroundService(getApplication());
 
 
@@ -126,23 +133,19 @@ public class MainActivity extends AppCompatActivity {
         mDrawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
-
-
+       fragmentManager = getSupportFragmentManager();
         try {
-            fragmentManager.beginTransaction().replace(R.id.flContent, Home.class.newInstance(), "Home");
+            fragmentManager.beginTransaction().replace(R.id.flContent, AllFoodsFragment.class.newInstance(), "Home");
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InstantiationException e) {
             e.printStackTrace();
         }
-
-
         //set default fragment
-        loadFragment(new Home());
+        loadFragment(new AllFoodsFragment());
 
 
-         // We can now look up items within the header if needed
+        // We can now look up items within the header if needed
 
         // ImageView ivHeaderPhoto = headerLayout.findViewById(R.id.imageView);
 
@@ -154,18 +157,9 @@ public class MainActivity extends AppCompatActivity {
 
 
         switch (item.getItemId()) {
-            case android.R.id.home:
+            case android.R.id.home :
                 mDrawer.openDrawer(GravityCompat.START);
                 return true;
-            case R.id.update:
-                Intent intent = new Intent(MainActivity.this, Update.class);
-                //getSupportFragmentManager().popBackStackImmediate("frag_back",0);
-                this.startActivity(intent);
-                break;
-
-
-
-
         }
         return super.onOptionsItemSelected(item);
     }
@@ -199,25 +193,31 @@ public class MainActivity extends AppCompatActivity {
                 fragmentClass = ChildDetails.class;
                 break;*/
 
-            case R.id.home:
+            case R.id.home:    //default will show  all foods given id as home
                 id = true;
-                fragmentClass = Home.class;
+                fragmentClass = AllFoodsFragment.class;
+                loadFragment(new AllFoodsFragment());
                 break;
             case R.id.update:
-                Intent intent = new Intent(MainActivity.this, Update.class);
-                //getSupportFragmentManager().popBackStackImmediate("frag_back",0);
-                this.startActivity(intent);
-                return;
-            case R.id.view_orders:
-                Intent i=new Intent(MainActivity.this,OrdersActivity.class);
-                this.startActivity(i);
+                id = true;
+                fragmentClass = UpdateFragments.class;
+                loadFragment(new UpdateFragments()t());
                 break;
-
-
-            case R.id.allFoods:
-                Intent allf= new Intent(MainActivity.this,AllFoods.class);
-                this.startActivity(allf);
-                return;
+            case R.id.view_orders:
+                id = true;
+                fragmentClass = OrdersFragment.class;
+                loadFragment(new OrdersFragment());
+                break;
+           case R.id.addFood:
+                id = true;
+                fragmentClass = AddFoodFragment.class;
+                loadFragment(new AddFoodFragment());
+                break;
+            case R.id.contactus:
+                id = true;
+                fragmentClass = ContactUsFragments.class;
+                loadFragment(new ContactUsFragments());
+                break;
             case R.id.logout:
                 LogoutUser();
                 return;
